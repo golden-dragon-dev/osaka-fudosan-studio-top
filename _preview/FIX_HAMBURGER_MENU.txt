@@ -1,0 +1,102 @@
+# ハンバーガー修正ガイド（いまの画面向け）
+# 現象: ハンバーガー button に Link = /menu →「Page not found」
+# 正解: /menu ページは不要。クリックで Menu（オーバーレイ）を開く
+
+========================================
+いまやること（この順）
+========================================
+
+【STEP 1】壊れた /menu リンクを外す
+----------------------------------------
+1. いま選択中のハンバーガー <button> のまま
+2. 画面に出ている「Page not found」ポップの
+   「Remove Link」をクリック
+   （または右パネル Link → クリア / なし）
+3. /menu のタグが消えたことを確認
+※このボタンにページURLを付けない
+
+【STEP 2】開く先の Menu を探す
+----------------------------------------
+1. Layers（左）を開く
+2. 「ヘッダー」の中を探す。名前例:
+   - Menu
+   - Menu Overlay
+   - Drawer
+   - モバイルメニュー
+   - Nav（SP用）
+3. 見つからないとき:
+   - キャンバス上部の検索 / または
+   - ヘッダー内で非表示（目が閉じている）Boxを全部開いて探す
+   - 中に「会社概要」「事業内容」などのリンクがある大きなBoxが Menu
+
+【STEP 3】ハンバーガーに「開く」動作を付ける
+----------------------------------------
+Studioのつけ方（どちらか）:
+
+A. Interactions（推奨）
+1. ハンバーガー button を選択
+2. 右パネル → Interactions（雷 / + Interaction）
+3. Trigger: Click（クリック）
+4. Action: 次のいずれか
+   - Open Menu
+   - Toggle Menu
+   - Open Overlay
+   - Show（対象のMenu Box）
+5. Target: STEP2で見つけた Menu を指定
+
+B. テンプレ標準の Menu 接続
+1. ハンバーガー選択
+2. 右パネルに Menu / Link to Menu のような項目があれば
+   既存の Menu コンポーネントを選ぶ
+3. /menu ページは選ばない
+
+【STEP 4】Menu 内リンクを # にする
+----------------------------------------
+Menu が開けたら（または Layers で Menu 内を選択）:
+
+  会社概要     → #company
+  事業内容     → #business
+  許認可・資格 → #license
+  沿革         → #history
+  お問い合わせ → #contact
+
+※ /about /service /works /news /contact のままなら全部差し替え
+
+【STEP 5】閉じる動作（任意だが推奨）
+----------------------------------------
+Menu 内の各リンク、または閉じる（×）ボタンに:
+  Click → Close Menu / Hide Overlay
+
+【STEP 6】Publish → 実機確認
+----------------------------------------
+1. Publish → Update
+2. スマホで:
+   - ハンバーガータップ → Menuが開く
+   - 会社概要 → 会社概要セクションへ移動
+   - 空ページ（Page not found）に行かない
+
+========================================
+うまくいかないとき
+========================================
+Q. Remove Link したあと何も起きない
+→ Interactions が未設定。STEP3を必ずやる。
+  Linkだけ外しても「開く動作」が無いと動かない。
+
+Q. Menu 自体が見つからない
+→ Add で Menu を新規作成するより、
+  テンプレの非表示Menuを探す方が早い。
+  Layers で「ヘッダー」直下の hidden Box を全部表示してみる。
+
+Q. Interaction に Open Menu が無い
+→ Action を「Show」にして、Menu Box を Target に指定。
+  Menu Box の Display が none / Hide なら、Show で表示される。
+
+Q. 開くが Desktop でも常に出る
+→ Menu の表示条件を Mobile のみに（Breakpoints）。
+
+========================================
+やってはいけないこと
+========================================
+- ハンバーガーに /menu や /about などページURLを付けない
+- 「Page not found」のまま Publish しない
+- 新しい空ページ「menu」を作ってリンクする（今回の正解ではない）
